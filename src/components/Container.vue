@@ -8,8 +8,10 @@ import { preloadImages } from '@/helpers';
 </script>
 
 <template>
-    <div
+    <Motion
         class="container"
+        :animate="{ opacity: isEnded ? 0 : 1 }"
+        :transition="{ duration: 1 }"
     >
         <div
             v-if="isLoading"
@@ -17,10 +19,9 @@ import { preloadImages } from '@/helpers';
         >
             <Spinner />
         </div>
-        <Motion
+        <div
             v-for="(item, index) in frames"
             class="container-item"
-            :animate="{ opacity: isEnded ? 0 : 1 }"
             :style="{ zIndex: index }"
             :key="index"
         >
@@ -28,8 +29,8 @@ import { preloadImages } from '@/helpers';
                 :frame="item"
                 :reverse="reverse"
             />
-        </Motion>
-    </div>
+        </div>
+    </Motion>
 </template>
 
 <script lang='ts'>
