@@ -3,6 +3,7 @@ import { Motion } from 'motion/vue';
 import { frames as introFrames } from '@/constants';
 import { Frame as FrameType } from '@/types';
 import Frame from '@/components/Frame.vue';
+import Spinner from '@/components/Spinner.vue';
 import { preloadImages } from '@/helpers';
 </script>
 
@@ -10,6 +11,12 @@ import { preloadImages } from '@/helpers';
     <div
         class="container"
     >
+        <div
+            v-if="isLoading"
+            class="container__loader"
+        >
+            <Spinner />
+        </div>
         <Motion
             v-for="(item, index) in frames"
             class="container-item"
@@ -29,11 +36,14 @@ import { preloadImages } from '@/helpers';
 let reverse = false;
 
 export default {
-    data(): { frames: FrameType[], current: number, audio: AudioContext | null, isEnded: boolean } {
+    // eslint-disable-next-line vue/max-len
+    data() {
         return {
             current: -1,
-            frames: [],
-            audio: null,
+            frames: [] as FrameType[],
+            audio: null as AudioContext | null,
+            source: null as AudioBufferSourceNode | null,
+            isLoading: true,
             isEnded: false,
         };
     },
@@ -50,21 +60,18 @@ export default {
             source.buffer = buffer;
 
             source.connect(context.destination);
-            source.start(0);
-
-            this.audio = context;
 
             source.onended = () => {
                 this.isEnded = true;
             };
+
+            this.source = source;
+            this.audio = context;
         },
         setNext() {
             this.current = this.getNext();
             const frame = introFrames[this.current];
             this.frames = [...this.frames, frame];
-
-            const nextFrame = introFrames[this.getNext()];
-            preloadImages([nextFrame.bgUrl, nextFrame.imgUrl].filter(Boolean) as string[]);
 
             setTimeout(() => {
                 this.setNext();
@@ -87,8 +94,18 @@ export default {
         },
     },
     mounted() {
-        this.loadAudio()
-            .then(() => this.setNext());
+        const images = preloadImages(introFrames
+            .flatMap((frame) => [frame.bgUrl, frame.imgUrl])
+            .filter(Boolean) as string[]);
+
+        const audio = this.loadAudio();
+
+        Promise.all([images, audio])
+            .then(() => {
+                this.isLoading = false;
+                this.source?.start();
+                this.setNext();
+            });
     },
     unmounted() {
         if (this.audio) {
@@ -104,6 +121,14 @@ export default {
 
     &-item{
         position: absolute;
+    }
+
+    &__loader{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100vw;
+        height: 100vh;
     }
 }
 </style>
