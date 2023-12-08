@@ -1,6 +1,5 @@
 import { createApp } from 'vue';
 import './style.scss';
-import { MotionPlugin } from '@vueuse/motion';
 import * as VueRouter from 'vue-router';
 import Home from '@/pages/Home.vue';
 import App from './App.vue';
@@ -19,6 +18,5 @@ const router = VueRouter.createRouter({
 const app = createApp(App);
 
 app.use(router);
-app.use(MotionPlugin);
 
 app.mount('#app');
