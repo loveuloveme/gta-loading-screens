@@ -3,6 +3,7 @@ import { Motion } from 'motion/vue';
 import { frames as introFrames } from '@/constants';
 import { Frame as FrameType } from '@/types';
 import Frame from '@/components/Frame.vue';
+import { preloadImages } from '@/helpers';
 </script>
 
 <template>
@@ -62,8 +63,8 @@ export default {
             const frame = introFrames[this.current];
             this.frames = [...this.frames, frame];
 
-            // const nextImgs = characters[this.getNext()];
-            // preloadImages(nextImgs);
+            const nextFrame = introFrames[this.getNext()];
+            preloadImages([nextFrame.bgUrl, nextFrame.imgUrl].filter(Boolean) as string[]);
 
             setTimeout(() => {
                 this.setNext();
