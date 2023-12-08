@@ -1,0 +1,27 @@
+{
+  "name": "gta",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@rushstack/eslint-patch": "^1.6.0",
+    "@vue/eslint-config-airbnb-with-typescript": "^7.0.1",
+    "@vueuse/motion": "^2.0.0",
+    "motion": "^10.16.4",
+    "vue": "^3.3.8",
+    "vue-router": "^4.2.5"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.3",
+    "@vitejs/plugin-vue": "^4.5.0",
+    "sass": "^1.69.5",
+    "typescript": "^5.2.2",
+    "vite": "^5.0.0",
+    "vue-tsc": "^1.8.22"
+  }
+}

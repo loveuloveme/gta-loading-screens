@@ -1,0 +1,71 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    background: #000000;
+}
+
+.logo-screen{
+    .screen__character{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        img{
+            width: 40vh;
+            height: 40vh;
+        }
+    }
+
+    &--gta{
+        img{
+            width: auto !important;
+            height: 50vh !important;
+        }
+    }
+}
+
+
+.character-screen{
+    .screen__background {
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+
+    .screen__character {
+        display: flex;
+        justify-content: center;
+
+        img {
+            transform-origin: top center;
+            margin-top: auto;
+            height: 90%;
+            object-fit: cover;
+        }
+    }
+
+    &--left{
+        .screen__character {
+            justify-content: flex-start;
+
+            img{
+                margin-left: 20%;
+            }
+        }
+    }
+
+    &--right{
+        .screen__character {
+            justify-content: flex-end;
+            
+            img{
+                margin-right: 20%;
+            }
+        }
+    }
+}
